@@ -49,11 +49,12 @@ const Content = styled.div`
   text-align: left;
   margin: 40px 0px 9px 0px;
 `;
-const Input = styled(BasicInput)`
-  ${({ invalid }) => invalid && 'border-color: red;'}
+const Input = styled(BasicInput)<{ $invalid: boolean }>`
+  ${({ $invalid }) => $invalid && 'border-color: red;'}
   width: 90%;
   z-index: 1;
 `;
+
 const PwBox = styled.div`
   position: relative;
   width: 100%;
@@ -139,7 +140,7 @@ const Login = () => {
           id="username"
           value={username}
           onChange={handleUsernameChange}
-          invalid={IdFailed}
+          $invalid={IdFailed}
         ></Input>
         {IdFailed && <p>아이디가 틀렸습니다. 다시 한 번 입력해 주세요.</p>}
 
@@ -150,7 +151,7 @@ const Login = () => {
             id="password"
             value={password}
             onChange={handlePasswordChange}
-            invalid={PwFailed}
+            $invalid={PwFailed}
           ></Input>
           <ImgButton type="button" onClick={handleTogglePasswordVisibility}>
             <img src={visible} alt="" />

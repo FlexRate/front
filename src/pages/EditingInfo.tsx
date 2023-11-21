@@ -161,6 +161,13 @@ const EditingInfo = () => {
     });
     console.log(loanValue);
   };
+  const handlethree = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLoanValue({
+      ...loanValue,
+      [e.target.name]: e.target.value,
+    });
+    console.log(loanValue);
+  };
 
   return (
     <Container>
@@ -246,6 +253,7 @@ const EditingInfo = () => {
           prop2="전세"
           prop3="월세"
           commonname="homeType"
+          onRadioChange={handlethree}
         />
         <div>
           <p>개인회생자 여부</p>

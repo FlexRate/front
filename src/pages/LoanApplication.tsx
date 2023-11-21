@@ -314,10 +314,12 @@ const LoanApplication = () => {
     // 예시: 신용평가 점수가 700일 때의 금리 범위를 계산
     const rateResult = calculateInterestRateRange(newScore);
     console.log('rateResult', rateResult);
+    const tmp1 = parseInt(rateResult.maxRate);
+    const tmp2 = parseInt(rateResult.minRate);
     setMyOutput((prev) => ({
       ...prev,
-      maxRate: rateResult.maxRate - '0',
-      minRate: rateResult.minRate - '0',
+      maxRate: tmp1,
+      minRate: tmp2,
     }));
 
     ///////////////////////////

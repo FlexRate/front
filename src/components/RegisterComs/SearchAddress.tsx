@@ -49,7 +49,7 @@ const RegisterStoreAddress = () => {
   const [address, setAddress] = useState('');
   const [detailAddress, setDetailAddress] = useState('');
   //상세주소검색
-  const handleComplete = (data) => {
+  const handleComplete = (data: any) => {
     let fullAddress = data.address; //기본 주소
     let extraAddress = '';
 
