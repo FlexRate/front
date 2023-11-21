@@ -19,17 +19,17 @@ import Password from '@/components/RegisterComs/Password';
 import { useRecoilState } from 'recoil';
 import { registerInfo } from '../state/register';
 
-interface RegisterValue {
-  user_id: string;
-  pwd: string;
-  nickname: string;
-  birth_year: Date;
-  gender: boolean;
-  nation: boolean;
-  phone_num: string;
-  email: string;
-  address: string;
-}
+// interface RegisterValue {
+//   user_id: string;
+//   pwd: string;
+//   nickname: string;
+//   birth_year: Date;
+//   gender: boolean;
+//   nation: boolean;
+//   phone_num: string;
+//   email: string;
+//   address: string;
+// }
 
 const Register = () => {
   const [registerValue, setRegisterValue] = useRecoilState(registerInfo);

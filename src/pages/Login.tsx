@@ -49,6 +49,7 @@ const Content = styled.div`
   text-align: left;
   margin: 40px 0px 9px 0px;
 `;
+
 const Input = styled(BasicInput)<{ $invalid: boolean }>`
   ${({ $invalid }) => $invalid && 'border-color: red;'}
   width: 90%;
