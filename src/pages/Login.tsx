@@ -5,6 +5,7 @@ import visible from '../assets/imgs/visible.png';
 import flexrateLogo from '../assets/Logos/flexrateLogo.png';
 import { BasicInput } from '@/styles/BasicStyles';
 
+//hi
 const Container = styled.div`
   display: flex;
   justify-content: center;
