@@ -301,7 +301,7 @@ const LoanApplication = () => {
     console.log(foramtedDate);
 
     await axiosInstance
-      .put(`/credit/${memberid}`, {
+      .put(`/credit/put/${memberid}`, {
         business_type: loanValue.selectedJob,
         employment_type: loanValue.selectedEmployment,
         company_enter_month: foramtedDate,
