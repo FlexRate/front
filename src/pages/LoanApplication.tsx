@@ -15,6 +15,8 @@ import LogisticRegression from '../models/calScore';
 import calculateInterestRateRange from '../models/calculateInterestRateRange';
 import { output } from '@/state/output';
 import axiosInstance from '@/apis/axiosinstance';
+import { format } from 'date-fns';
+import formatDateToString from '@/utils/formatDateToString';
 
 const Container = styled.div`
   display: flex;
@@ -296,17 +298,22 @@ const LoanApplication = () => {
     //////////////////////
     /// api 호출 신용평가정보 기입
     const memberid = localStorage.getItem('memberid');
+    const foramtedDate = formatDateToString(loanValue.selectedDate);
+    console.log(foramtedDate);
+
     await axiosInstance
       .put(`/credit/${memberid}`, {
-        id: 38,
-        member: null,
-        loan: null,
-        credit_score: 750,
-        yearly_income: 60000,
-        company_month: 7,
-        existing_loan_cnt: 2,
-        existing_loan_amt: 10000,
-        debt_rate: 6,
+        business_type: loanValue.selectedJob,
+        employment_type: loanValue.selectedEmployment,
+        company_enter_month: foramtedDate,
+        academic_ability_school: loanValue.academicName,
+        academic_ability: loanValue.selectedAcademicType,
+        yearly_income: loanValue.income,
+        credit_score: loanValue.creditScore,
+        houseown_type: loanValue.homeType,
+        personal_rehabilitation_yn: loanValue.personalRecovery,
+        personal_rehabilitation_complete_yn: loanValue.recoveryPayment,
+        loan_purpose: loanValue.selectedPurpose,
       })
       .then((res) => {
         console.log(res);
