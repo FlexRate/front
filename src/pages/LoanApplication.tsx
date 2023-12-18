@@ -15,7 +15,6 @@ import LogisticRegression from '../models/calScore';
 import calculateInterestRateRange from '../models/calculateInterestRateRange';
 import { output } from '@/state/output';
 import axiosInstance from '@/apis/axiosinstance';
-import { format } from 'date-fns';
 import formatDateToString from '@/utils/formatDateToString';
 
 const Container = styled.div`
