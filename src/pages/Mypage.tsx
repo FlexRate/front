@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from '../styles/MypageStyle';
 import axiosInstance from '../apis/axiosinstance';
 import { HOSUE, PERSONAL } from '@/constants/creditInfo';
 import { useNavigate } from 'react-router-dom';
 import formatDateToKorean from '../utils/formatDateToKorean';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 const Mypage = () => {
   let memberId: string | null;
   const nav = useNavigate();
@@ -69,7 +72,7 @@ const Mypage = () => {
               nav('/dashboard');
             }}
           >
-            &lt;{' '}
+            <FontAwesomeIcon icon={faChevronLeft} size="sm" />
           </span>
           <span>마이페이지</span>
         </S.Title>
