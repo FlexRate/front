@@ -133,7 +133,7 @@ const Login = () => {
     console.log(tmp);
     //로그인 api 호출
     await axiosInstance
-      .post('/login', tmp)
+      .post('/users/login', tmp)
       .then((res) => {
         console.log(res);
         console.log(res.data.token);
