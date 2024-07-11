@@ -131,7 +131,7 @@ const Dashboard = () => {
 };
 
 const Wrapper = styled.div<{ $isNarrowScreen: boolean; $isVisible: boolean }>`
-  margin-left: ${(props) => (props.$isNarrowScreen ? '15rem' : '0')};
+  margin-left: ${(props) => (props.$isNarrowScreen ? '22rem' : '0')};
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -151,7 +151,7 @@ const Wrapper = styled.div<{ $isNarrowScreen: boolean; $isVisible: boolean }>`
 
 const MainDashBoard = styled.span<{ $isNarrowScreen: boolean }>`
   position: absolute;
-  width: ${(props) => (props.$isNarrowScreen ? 'calc(100% - 18rem)' : '100%')};
+  width: ${(props) => (props.$isNarrowScreen ? 'calc(100% - 25rem)' : '100%')};
   height: calc(100% - 110px);
   margin: 1.5rem 1rem;
 `;

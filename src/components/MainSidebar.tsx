@@ -122,7 +122,8 @@ const Sidebar = styled.aside`
   left: 0px;
   border-right: 1px solid var(--Gray3, #d9d9d9);
   background: #f9fafc;
-  width: 11.5rem;
+  max-width: 22rem;
+  width: 20%;
   height: 100%;
   display: flex;
   flex-direction: column;

@@ -113,6 +113,7 @@ const StTitle = styled.p`
 const StLayout = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
   margin: 0.8rem 0 1.8rem;
 `;
 
