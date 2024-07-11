@@ -63,6 +63,15 @@ const Title = styled.div<{ $borderColor: string }>`
   border-left: 2px solid ${(props) => props.$borderColor};
   padding-left: 8px;
 `;
+
+const StSubTitle = styled.p`
+  color: #8e9cb0;
+  font-family: Pretendard;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+`;
 const Bold = styled.span`
   color: black;
   font-size: 16px;
@@ -109,32 +118,32 @@ const DashHeader = () => {
         <div>
           <BoldGreen>Flexrate</BoldGreen>
           <Bold>신용대출</Bold>
-          <Box color="#682A1A" $backgroundColor="#f6e5df">
-            {`${data.loan_request / 10000}만원`}
-          </Box>
-          <Box color="#682A1A" $backgroundColor="#f6e5df">
-            {`${data.loan_repay_term * 12}개월`}
-          </Box>
         </div>
+        <StSubTitle>
+          입력하신 금융 정보를 모두 고려하여 추천된 대출상품이에요.
+        </StSubTitle>
       </Container>
       <Container>
         <div>
-          <Title $borderColor="#60C5C5">다음 달 대출금 상환 날짜</Title>
+          <Title $borderColor="#60C5C5">나의 대출 금리</Title>
         </div>
         <div>
-          <Bold>2024년 1월 19일</Bold>
-          <Box color="#406969" $backgroundColor="#E0F2F3">
-            D-31일 남았어요
-          </Box>
+          <Bold>{12}%</Bold>
         </div>
+        <StSubTitle>
+          입력하신 금융 정보를 모두 고려하여 추천된 대출 금리예요.
+        </StSubTitle>
       </Container>
       <LastContainer>
         <div>
-          <Title $borderColor="#4D81BF">금리 갱신 회차</Title>
+          <Title $borderColor="#4D81BF">나의 대출 가능 한도</Title>
         </div>
         <div>
-          <Bold>{data.changes.length}회차</Bold>
+          <Bold>{300}만원</Bold>
         </div>
+        <StSubTitle>
+          입력하신 금융 정보를 기반으로 산출된 대출 한도예요.
+        </StSubTitle>
       </LastContainer>
       {isVisible && <Tooltip2 />}
     </DashHeaderWrapper>
