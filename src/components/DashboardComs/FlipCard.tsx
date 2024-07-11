@@ -9,8 +9,56 @@ import Tooltip3 from '../CoachMarksComs/Tooltip3';
 import { LoanInfo } from '@/state/LoanInfo';
 import { output } from '@/state/output';
 import { userInfo } from '@/state/userInfo';
+import { SubTitle } from '@/styles/MypageStyle';
 
-const CardContainer = styled.div<{ $isFlipped: boolean; $isVisible: boolean }>`
+const FlipCard: React.FC = () => {
+  const Info = useRecoilValue(LoanInfo);
+  const outputValue = useRecoilValue(output);
+  const score = Math.floor(outputValue.Score);
+
+  const [coachMark, setCoachMark] = useRecoilState(CoachMarkStage);
+  const data = useRecoilValue(userInfo);
+
+  // stage 값에 접근
+  const { stage, mode } = coachMark;
+
+  // stage 값을 업데이트하는 함수
+  const updateStage = (newStage: number) => {
+    setCoachMark({ ...coachMark, stage: newStage });
+  };
+
+  let isVisible = mode && stage === 2;
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleClick = () => {
+    setIsFlipped(!isFlipped);
+  };
+
+  return (
+    <CardContainer $isVisible={isVisible}>
+      <CardBack>
+        <StTitle>1:1 맞춤 금리</StTitle>
+        <StLayout>
+          <StP1>
+            <StStrong>60만 건의 데이터</StStrong>에 기반해
+          </StP1>
+          <StP1>합리적인 대출 상품을 제안해요. </StP1>
+        </StLayout>
+        <StLayout>
+          <StP>약 60만 건의 실제 금융 가명 정보를 활용한 빅데이터</StP>
+          <StP>분석 모델로, 개인의 연소득, 주거형태, 고용형태, 입사년도 </StP>
+          <StP>나이, 성별 등 다양한 요소를 종합적으로 고려하여 </StP>
+          <StP>개인 맞춤형 대출 상품을 제안드려요. </StP>
+        </StLayout>
+      </CardBack>
+      {isVisible && <Tooltip3 />}
+    </CardContainer>
+  );
+};
+
+export default FlipCard;
+
+const CardContainer = styled.div<{ $isVisible: boolean }>`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -37,215 +85,55 @@ const CardContainer = styled.div<{ $isFlipped: boolean; $isVisible: boolean }>`
   }
 `;
 
-const CardFlipper = styled.div<{ $isFlipped: boolean }>`
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-  transform: ${({ $isFlipped }) =>
-    $isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'};
-`;
-
 const CardFace = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
   color: white;
 `;
 
-const CardFront = styled(CardFace)`
+const CardBack = styled(CardFace)`
+  background-color: #fefcf2;
   display: flex;
   flex-direction: column;
-  gap: 0.85em;
-  color: black;
-  & > div {
-    /* border: 1px solid #d9d9d9; */
-    outline: 1px solid var(--Gray3, #d9d9d9);
-    border-radius: 8px;
-    width: 99%;
-    height: 45.5%;
-    display: flex;
-    flex-direction: column;
-  }
-`;
-const Wrapper = styled.div`
-  width: 90%;
-  padding: 22px 21px;
-  & > h1 {
-    color: #595959;
-    font-family: Pretendard;
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 16px;
-  }
-  & > div {
-    width: 95%;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.2em;
-    margin-bottom: 0.5em;
-    & > span {
-      display: flex;
-      align-items: center;
-      gap: 0.2em;
-      & > h2 {
-        font-family: SUIT;
-        font-size: 28px;
-        font-weight: 700;
-        line-height: 35px;
-      }
-      & > h3 {
-        font-family: SUIT;
-        font-size: 13px;
-        font-weight: 600;
-        line-height: 16px;
-        margin-top: 0.8em;
-      }
-      & > h4 {
-        font-family: Pretendard;
-        font-size: 12px;
-        font-weight: 600;
-        line-height: 14px;
-        color: #8c8c8c;
-        margin-top: 0.9em;
-      }
-      & > h5 {
-        font-family: SUIT;
-        font-size: 14px;
-        font-weight: 700;
-        line-height: 17px;
-        color: #51b13a;
-        margin-top: 0.8em;
-      }
-      & > h6 {
-        font-family: Pretendard;
-        font-size: 10px;
-        font-weight: 600;
-        line-height: 12px;
-        color: #bfbfbf;
-        margin-top: 1.1em;
-      }
-      & > img {
-        width: 0.7em;
-        height: 0.7em;
-        margin-top: 0.4em;
-      }
-    }
-  }
-`;
-const RateBox = styled.span`
-  display: flex;
-  align-items: center;
   justify-content: center;
-  width: 87%;
-  padding: 0.5em 1em;
+  padding: 2.7rem 2.4rem;
+`;
+
+const StTitle = styled.p`
+  color: var(--Black, #262626);
   font-family: Pretendard;
   font-size: 10px;
+  font-style: normal;
   font-weight: 700;
-  line-height: 12px;
-  text-align: center;
-  color: #414141;
-  border: none;
-  border-radius: 5px;
-  background-color: #f4f4f4;
-`;
-const ScoreBox = styled(RateBox)`
-  color: #51b13a;
-  background-color: #e3f5ee;
-  color: #397356;
-  & > div {
-    color: #63c393;
-  }
+  line-height: normal;
 `;
 
-const CardBack = styled(CardFace)`
-  background-color: #e8f7f7;
-  background-image: url(${flip1});
-  background-size: contain;
-  background-repeat: no-repeat;
-  transform: rotateY(180deg);
+const StLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0.8rem 0 1.8rem;
 `;
 
-const FlipCard: React.FC = () => {
-  const Info = useRecoilValue(LoanInfo);
-  const outputValue = useRecoilValue(output);
-  const score = Math.floor(outputValue.Score);
+const StStrong = styled.span`
+  color: #77645e;
+`;
 
-  const [coachMark, setCoachMark] = useRecoilState(CoachMarkStage);
-  const data = useRecoilValue(userInfo);
+const StP1 = styled.p`
+  color: var(--Black, #262626);
+  font-family: Pretendard;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+`;
 
-  // stage 값에 접근
-  const { stage, mode } = coachMark;
-
-  // stage 값을 업데이트하는 함수
-  const updateStage = (newStage: number) => {
-    setCoachMark({ ...coachMark, stage: newStage });
-  };
-
-  let isVisible = mode && stage === 2;
-  const [isFlipped, setIsFlipped] = useState(false);
-
-  const handleClick = () => {
-    setIsFlipped(!isFlipped);
-  };
-
-  return (
-    <CardContainer
-      onClick={handleClick}
-      $isFlipped={isFlipped}
-      $isVisible={isVisible}
-    >
-      <CardFlipper $isFlipped={isFlipped}>
-        <CardFront>
-          <div>
-            <Wrapper>
-              <h1>나의 대출 금리</h1>
-              <div>
-                <span>
-                  <h2>{data.loan_initial}</h2>
-                  <h3>%</h3>
-                  <h4>이번 분기 기준</h4>
-                </span>
-                <span>
-                  <img src={upCircle} alt="" />
-                  <h5>%</h5>
-                  <h6>전달 대비</h6>
-                </span>
-              </div>
-
-              <RateBox>💵 연봉이 오르면 금리가 저렴해진다?</RateBox>
-            </Wrapper>
-          </div>
-          <div>
-            <Wrapper>
-              <h1>나의 신용 평가 점수</h1>
-              <div>
-                <span>
-                  <h2>{data.newCreditScore}</h2>
-                  <h3>점</h3>
-                </span>
-                <span>
-                  <h5>상위 68%</h5>
-                </span>
-              </div>
-              <ScoreBox>
-                NICE 신용평가점수보다 약{' '}
-                <div>{data.newCreditScore - data.creditScore}점</div> 차이나요!
-              </ScoreBox>
-            </Wrapper>
-          </div>
-        </CardFront>
-        <CardBack></CardBack>
-      </CardFlipper>
-      {isVisible && <Tooltip3 />}
-    </CardContainer>
-  );
-};
-
-export default FlipCard;
+const StP = styled.p`
+  color: #8d96a1;
+  font-family: Pretendard;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+`;

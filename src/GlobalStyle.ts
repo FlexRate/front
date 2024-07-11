@@ -6,6 +6,14 @@ import PretendardExtraBold from './assets/fonts/Pretendard/Pretendard-ExtraBold.
 
 const GlobalStyle = createGlobalStyle`
 
+  html {
+    font-size: 62.5%;
+  }
+
+  *{
+    box-sizing: border-box;
+  }
+
     @font-face {
         font-family: 'Pretendard';
         font-weight: 200;
@@ -43,6 +51,8 @@ const GlobalStyle = createGlobalStyle`
 
     body {
     font-family: 'Pretendard','SUIT',serif;
+    
+    
     
 }
 `;

@@ -110,10 +110,10 @@ const Dashboard = () => {
           {/*알림*/}
           <div className="item3">
             <Test />
+            {/*금융지식 1*/}
           </div>
-          {/*대출금리,신용평가 점수*/}
           <div className="item4">
-            <LoanTobepaid></LoanTobepaid>
+            <LoanTobepaid />
           </div>
           {/*이번달 대출금*/}
           <div className="item5">
