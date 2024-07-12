@@ -1,4 +1,3 @@
-// TransverseGraph.tsx
 import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 import { styled } from 'styled-components';
@@ -7,31 +6,33 @@ type BarChartProps = {
   value: number;
   min: number;
   max: number;
-}; // 데이터 타입 정의
+};
 
-/** 가로막대차트 구현 */
 const TransverseGraph: React.FC<BarChartProps> = ({ value, min, max }) => {
   const ref = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    if (ref.current && value) {
+    if (ref.current && value !== undefined) {
       const svg = d3.select(ref.current);
 
       // 기존 내용을 지우고 새로운 그래프를 그릴 수 있도록 준비합니다.
       svg.selectAll('*').remove();
 
-      // x축 스케일을 설정합니다. value의 최댓값으로 도메인을 설정합니다.
       const rate = value;
+      const width = ref.current.clientWidth;
+      const start = (8 / 21) * width; // 8% 위치
+      const end = (12 / 21) * width; // 12% 위치
+      const barWidth = end - start;
+
       const gradient = svg
         .append('defs')
         .append('linearGradient')
         .attr('id', 'gradient')
         .attr('x1', '0%')
-        .attr('x2', `100%`)
+        .attr('x2', '100%')
         .attr('y1', '0%')
         .attr('y2', '0%');
 
-      // 그라데이션 색상 정의
       gradient
         .append('stop')
         .attr('offset', '0%')
@@ -49,52 +50,53 @@ const TransverseGraph: React.FC<BarChartProps> = ({ value, min, max }) => {
 
       svg
         .append('rect')
-        .attr('width', `100%`) // 배경 막대의 전체 너비
-        .attr('height', '12px') // 막대와 동일한 높이
-        .attr('fill', '#EEF9F5') // 배경 막대의 색상
-        .attr('rx', '8px') // 둥근 모서리를 위한 x축 반경
-        .attr('ry', '8px'); // 둥근 모서리를 위한 y축 반경
+        .attr('x', 0)
+        .attr('y', 12)
+        .attr('width', `100%`)
+        .attr('height', '12px')
+        .attr('fill', '#EEF9F5')
+        .attr('rx', '8px')
+        .attr('ry', '8px');
 
-      // SVG에 막대를 추가합니다.
       svg
         .append('rect')
-        .attr('height', '12px') // 막대의 높이
-        .attr('fill', 'url(#gradient)') // 막대의 색상
-        .attr('rx', '8px') // 둥근 모서리를 위한 x축 반경
-        .attr('ry', '8px') // 둥근 모서리를 위한 y축 반경
-        .attr('width', 0) // 애니메이션 시작을 위해 초기 너비를 0으로 설정합니다.
+        .attr('x', start)
+        .attr('y', 12)
+        .attr('height', '12px')
+        .attr('fill', 'url(#gradient)')
+        .attr('rx', start === 0 ? '8px' : '0') // 시작 부분이 아닌 경우 둥근 모서리를 제거
+        .attr('ry', start === 0 ? '8px' : '0')
+        .attr('width', 0)
         .transition()
         .duration(1500)
-        .attr('width', `${rate}%`); // 애니메이션을 통해 최종 너비로 변경합니다.
+        .attr('width', barWidth);
 
-      // 막대에 텍스트를 추가합니다.
+      // 양 끝에 구분선 추가
       svg
-        .append('text')
-        .attr('x', 0) // 텍스트의 x 위치
-        .attr('y', 25) // 텍스트의 y 위치
-        .text(`0%`)
-        .attr('font-size', '8px')
-        .attr('fill', '#BFBFBF');
+        .append('line')
+        .attr('x1', start)
+        .attr('y1', -50) // 막대 위로 5px
+        .attr('x2', start)
+        .attr('y2', 50) // 막대 아래로 5px
+        .attr('stroke', '#BFBFBF')
+        .attr('stroke-width', 1)
+        .attr('stroke-dasharray', '4 2'); // 점선
+
       svg
-        .append('text')
-        .attr('x', '95%')
-        .attr('y', 25) // 텍스트의 y 위치
-        .text(`${max + 5}%`)
-        .attr('font-size', '8px')
-        .attr('fill', '#BFBFBF');
-      svg
-        .append('text')
-        .attr('x', `${rate}%`)
-        .attr('y', 25) // 텍스트의 y 위치
-        .text(`${value}%`)
-        .attr('font-size', '8px')
-        .attr('fill', '#51b13a');
+        .append('line')
+        .attr('x1', end)
+        .attr('y1', -50) // 막대 위로 5px
+        .attr('x2', end)
+        .attr('y2', 50) // 막대 아래로 5px
+        .attr('stroke', '#BFBFBF')
+        .attr('stroke-width', 1)
+        .attr('stroke-dasharray', '4 2'); // 점선
     }
   }, [value]);
 
   return (
     <Wrapper>
-      <div className="percent">{value}% </div>
+      {/* <div className="percent">{value}% </div> */}
       <Svg ref={ref} />
     </Wrapper>
   );
@@ -128,7 +130,7 @@ const Wrapper = styled.div`
 
 const Svg = styled.svg`
   width: 100%;
-  height: 2rem;
+  height: 40px;
 `;
 
 export default TransverseGraph;

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import ApexCharts from 'apexcharts';
 import styled from 'styled-components';
 import '../../styles/CustomTooltip.css';
-import up from '../../assets/imgs/up.png';
-import down from '../../assets/imgs/down.png';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { CoachMarkStage } from '@/state/CoachMarkStage';
 import Tooltip5 from '../CoachMarksComs/Tooltip5';
 import { userInfo } from '@/state/userInfo';
+import TransverseGraph from './TransverseGraph';
+import { SubTitle } from '@/styles/MypageStyle';
 
 const Container = styled.div<{ $isVisible: boolean }>`
   width: 100%;
@@ -19,7 +18,9 @@ const Container = styled.div<{ $isVisible: boolean }>`
   border-radius: 8px;
   display: flex;
   flex-direction: column;
+  gap: 2rem;
   position: relative;
+  padding: 2.8rem;
 
   z-index: ${({ $isVisible }) => ($isVisible ? '10' : '1')};
   //코치마크
@@ -39,7 +40,8 @@ const Container = styled.div<{ $isVisible: boolean }>`
   }
 `;
 const Wrapper = styled.div`
-  padding: 1.5em 2em 0 2em;
+  display: flex;
+  flex-direction: column;
   & > p {
     font-size: 13px;
     font-weight: 700;
@@ -50,16 +52,16 @@ const Wrapper = styled.div`
   }
 `;
 const Num = styled.span`
-  font-family: SUIT;
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 35px;
-  margin-right: 0.2em;
+  color: #21272d;
+  font-size: 3rem;
+  font-style: normal;
+  font-weight: 550;
+  line-height: normal;
 `;
 const Per = styled.span`
-  font-family: SUIT;
+  color: #8c8c8c;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 16px;
   margin-right: 0.4em;
 `;
@@ -102,140 +104,65 @@ const RateChange = () => {
   let isVisible = mode && stage === 4;
   const changes = data.changes;
   const lineData = changes.map((item) => item.change_loan_initial);
-  const blockData = lineData.map((item) => item * 1.25);
-  const duration = changes.map((item) => item.change_insert_time);
-
-  const options = {
-    colors: ['#FBEAB2', '#80D2D0'],
-    series: [
-      {
-        name: '',
-        type: 'column',
-        data: blockData,
-      },
-      {
-        name: '',
-        type: 'line',
-        data: lineData,
-      },
-    ],
-    chart: {
-      height: 185,
-      type: 'line',
-      toolbar: {
-        show: false,
-      },
-    },
-    plotOptions: {
-      bar: {
-        columnWidth: '65%',
-      },
-    },
-    tooltip: {
-      custom: function ({
-        series,
-        seriesIndex,
-        dataPointIndex,
-        w,
-      }: ChartFunctionParams) {
-        let idx = parseInt(w.globals.labels[dataPointIndex]) - 1;
-        let rate = series[seriesIndex][dataPointIndex] / 1.25; // 해당 월의 금리
-        let previousRate = series[seriesIndex][dataPointIndex - 1] || 0; // 전달의 금리
-        let rateChange = rate - previousRate; // 금리 변동폭
-        const startDate = duration[idx];
-        const endDate = duration[idx];
-
-        // 양수 또는 음수에 따른 아이콘 결정
-        const changeIcon =
-          rateChange >= 0
-            ? `<img src=${up} alt="upIcon" />` // 양수일 때의 아이콘
-            : `<img src=${down} alt="downIcon" />`; // 음수일 때의 아이콘
-
-        //사용자 정의 툴팁 내용
-        return `
-        <div class="custom-tooltip">
-            <div class="inner-box">
-              <span class="num">${rate}</span>
-              <span class="per">%</span>
-              <div class="date">${startDate} - ${endDate}</div>
-              <span class="text">이전 달 대비</span>
-              <span class="change">${changeIcon} ${rateChange}%</span>
-            </div>
-            </div>
-        `;
-      },
-    },
-    stroke: {
-      width: [0, 2.5],
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    labels: duration,
-    xaxis: {
-      tooltip: {
-        enabled: false, // X축 툴팁 비활성화
-      },
-      type: 'category',
-      categories: duration,
-      labels: {
-        show: false, // X축 라벨을 숨깁니다.
-      },
-    },
-    yaxis: [
-      {
-        labels: {
-          show: false, // Y축 라벨을 숨깁니다.
-        },
-        min: 0, // 선 그래프의 Y축 최소값
-        max: 20, // 선 그래프의 Y축 최대값
-      },
-      {
-        labels: {
-          show: false, // Y축 라벨을 숨깁니다.
-        },
-        min: 0, // 선 그래프의 Y축 최소값
-        max: 20, // 선 그래프의 Y축 최대값
-      },
-    ],
-
-    legend: {
-      show: false, // 범례를 숨깁니다.
-    },
-    grid: {
-      show: false, // 그리드 자체는 보임
-      padding: {
-        left: 0, // 왼쪽 패딩을 0으로 설정
-        right: 25, // 오른쪽 패딩을 0으로 설정 (필요한 경우)
-      },
-    },
-  };
-
-  useEffect(() => {
-    const chart = new ApexCharts(document.querySelector('#chart'), options);
-    chart.render();
-    return () => {
-      chart.destroy();
-    };
-  }, []);
 
   return (
     <Container $isVisible={isVisible}>
       <Wrapper>
-        <p>나의 대출 금리 변화</p>
+        <p>또래의 대출 금리 범위와 나의 금리 범위 위치</p>
         <div>
-          <Num>{data.loan_initial}</Num>
+          <Num>{`0 ~ 21`}</Num>
           <Per>%</Per>
-          <Text>역대 최저 금리</Text>
-          <Num>{data.loan_initial}</Num>
+          <Text>20대 여자</Text>
+          <Num>{`8 ~ 12`}</Num>
           <Per>%</Per>
-          <Text>역대 최고 금리</Text>
+          <Text>나의 범위</Text>
         </div>
       </Wrapper>
-      <Chart id="chart"></Chart>
+      <TransverseGraph value={10} min={0} max={100} />
+      <StLabelWrapper>
+        <StLabelContainer>
+          <StCircle />
+          <StLabel>내 상품의 금리 범위</StLabel>
+        </StLabelContainer>
+        <StLabelContainer>
+          <StbasicCircle />
+          <StLabel>대출 상품을 가입한 20대 여자의 평균 금리 범위</StLabel>
+        </StLabelContainer>
+      </StLabelWrapper>
       {isVisible && <Tooltip5 />}
     </Container>
   );
 };
 
 export default RateChange;
+
+const StLabelWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const StLabelContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const StCircle = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50px;
+  background-color: #5bc569;
+`;
+
+const StLabel = styled.p`
+  color: #87898d;
+  font-family: Pretendard;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+`;
+
+const StbasicCircle = styled(StCircle)`
+  background-color: #f6f7f8;
+`;

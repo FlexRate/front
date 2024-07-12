@@ -1,15 +1,96 @@
-import React from 'react';
-import { styled } from 'styled-components';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import '../../styles/CustomTooltip.css';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { CoachMarkStage } from '@/state/CoachMarkStage';
-import { LoanInfo } from '@/state/LoanInfo';
-import Tooltip6 from '../CoachMarksComs/Tooltip6';
+import Tooltip5 from '../CoachMarksComs/Tooltip5';
 import { userInfo } from '@/state/userInfo';
-import customLocaleString from '@/utils/customLocaleString';
+import TransverseGraph from './TransverseGraph';
+import { SubTitle } from '@/styles/MypageStyle';
+
+const Container = styled.div<{ $isVisible: boolean }>`
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  /* border: 1px solid #d9d9d9; */
+  outline: 1px solid var(--Gray3, #d9d9d9);
+  outline-offset: -1px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  padding: 2.8rem;
+
+  z-index: ${({ $isVisible }) => ($isVisible ? '10' : '1')};
+  //코치마크
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    bottom: -5px;
+    left: -5px; /* 테두리 바깥쪽 영역 */
+    z-index: ${({ $isVisible }) =>
+      $isVisible ? '-1' : '0'}; /* div 뒤에 배치 */
+    background-color: #fff;
+    border-radius: 10px;
+    display: ${({ $isVisible }) => ($isVisible ? 'block' : 'none')};
+  }
+`;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  & > p {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: 0em;
+    color: #595959;
+    padding-bottom: 0.75em;
+  }
+`;
+const Num = styled.span`
+  color: #21272d;
+  font-size: 3rem;
+  font-style: normal;
+  font-weight: 550;
+  line-height: normal;
+`;
+const Per = styled.span`
+  color: #8c8c8c;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16px;
+  margin-right: 0.4em;
+`;
+const Text = styled.span`
+  font-family: Pretendard;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14px;
+  color: #8c8c8c;
+  margin-right: 5em;
+`;
+const Chart = styled.div`
+  width: 100%;
+`;
+
+interface ChartFunctionParams {
+  series: number[][];
+  seriesIndex: number;
+  dataPointIndex: number;
+  w: {
+    globals: {
+      labels: string[];
+    };
+    // ...w에 대한 추가적인 타입 정의
+  };
+}
 
 const LoanHistory = () => {
   const [coachMark, setCoachMark] = useRecoilState(CoachMarkStage);
-  const isloan = useRecoilValue(userInfo);
   const data = useRecoilValue(userInfo);
 
   // stage 값에 접근
@@ -20,181 +101,68 @@ const LoanHistory = () => {
     setCoachMark({ ...coachMark, stage: newStage });
   };
 
-  let isVisible = mode && stage === 5;
+  let isVisible = mode && stage === 4;
+  const changes = data.changes;
+  const lineData = changes.map((item) => item.change_loan_initial);
+
   return (
-    <Dash.Wrapper $isVisible={isVisible}>
-      <Dash.Title>나의 대출 히스토리</Dash.Title>
-      <Dash.Cate>
-        <span>
-          <Dash.Label>대출시작일</Dash.Label>
-          <Dash.Content>2023년 12월 19일</Dash.Content>
-        </span>
-        <span>
-          <Dash.Label>금리 변경 횟수</Dash.Label>
-          <Dash.Content>0회</Dash.Content>
-        </span>
-        <span>
-          <Dash.Label>상환 횟수</Dash.Label>
-          <Dash.Content>0회</Dash.Content>
-        </span>
-        <span>
-          <Dash.Label>연체 횟수</Dash.Label>
-          <Dash.Content>0회</Dash.Content>
-        </span>
-      </Dash.Cate>
-      <Dash.ScrollBoard>
-        <BoardItem>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="21"
-            height="20"
-            viewBox="0 0 21 20"
-            fill="none"
-          >
-            <path
-              d="M2.16675 10C2.16675 6.07166 2.16675 4.1075 3.38675 2.88666C4.60841 1.66666 6.57175 1.66666 10.5001 1.66666C14.4284 1.66666 16.3926 1.66666 17.6126 2.88666C18.8334 4.10833 18.8334 6.07166 18.8334 10C18.8334 13.9283 18.8334 15.8925 17.6126 17.1125C16.3934 18.3333 14.4284 18.3333 10.5001 18.3333C6.57175 18.3333 4.60758 18.3333 3.38675 17.1125C2.16675 15.8933 2.16675 13.9283 2.16675 10Z"
-              stroke="#8C8C8C"
-              strokeWidth="1.5625"
-            />
-            <path
-              d="M6.3335 11.6667L8.24433 9.75583C8.4006 9.59961 8.61253 9.51184 8.8335 9.51184C9.05447 9.51184 9.26639 9.59961 9.42266 9.75583L10.7443 11.0775C10.9006 11.2337 11.1125 11.3215 11.3335 11.3215C11.5545 11.3215 11.7664 11.2337 11.9227 11.0775L14.6668 8.33333M14.6668 8.33333V10.4167M14.6668 8.33333H12.5835"
-              stroke="#8C8C8C"
-              strokeWidth="1.5625"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <p>상환 기록이 없습니다</p>
-        </BoardItem>
-      </Dash.ScrollBoard>
-      {isVisible && <Tooltip6 />}
-    </Dash.Wrapper>
+    <Container $isVisible={isVisible}>
+      <Wrapper>
+        <p>또래의 대출 금리 범위와 나의 금리 범위 위치</p>
+        <div>
+          <Num>{`0 ~ 21`}</Num>
+          <Per>%</Per>
+          <Text>20대 여자</Text>
+          <Num>{`8 ~ 12`}</Num>
+          <Per>%</Per>
+          <Text>나의 범위</Text>
+        </div>
+      </Wrapper>
+      <TransverseGraph value={10} min={0} max={100} />
+      <StLabelWrapper>
+        <StLabelContainer>
+          <StCircle />
+          <StLabel>내 상품의 금리 범위</StLabel>
+        </StLabelContainer>
+        <StLabelContainer>
+          <StbasicCircle />
+          <StLabel>대출 상품을 가입한 20대 여자의 평균 금리 범위</StLabel>
+        </StLabelContainer>
+      </StLabelWrapper>
+      {isVisible && <Tooltip5 />}
+    </Container>
   );
 };
 
-const Dash = {
-  Wrapper: styled.div<{ $isVisible: boolean }>`
-    position: relative;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    border-radius: 8px;
-    /* border: 1px solid var(--Gray3, #d9d9d9); */
-    outline: 1px solid var(--Gray3, #d9d9d9);
-    outline-offset: -1px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    transition: 0.5s; /* 변화가 있을 때 시간차 주기*/
-    z-index: ${({ $isVisible }) => ($isVisible ? '10' : '1')};
-    //코치마크
+export default LoanHistory;
 
-    &::before {
-      content: '';
-      position: absolute;
-      top: -5px;
-      right: -5px;
-      bottom: -5px;
-      left: -5px; /* 테두리 바깥쪽 영역 */
-      z-index: ${({ $isVisible }) =>
-        $isVisible ? '-1' : 'none'}; /* div 뒤에 배치 */
-      background-color: #fff;
-      border-radius: 10px;
-      display: ${({ $isVisible }) => ($isVisible ? 'block' : 'none')};
-    }
-
-    &:hover {
-      transform: translateY(-2px); /*위로 5px이동*/
-      box-shadow: 5px 5px 5px 0 #d9d9d9;
-    }
-  `,
-  Title: styled.p`
-    margin: 22px 22px 0 22px;
-    color: var(--Gray8, #595959);
-    font-family: Pretendard;
-    font-size: 0.8rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-  `,
-  Cate: styled.div`
-    margin: 0 22px 0 22px;
-    display: flex;
-    justify-content: space-between;
-    & > span {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    & > span:not(:nth-child(1)) {
-      border-left: 1px solid #bfbfbf;
-      padding-left: 1rem;
-    }
-  `,
-  Label: styled.p`
-    color: var(--Gray6, #8c8c8c);
-    font-family: Pretendard;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-  `,
-  Content: styled.p`
-    color: #000;
-    font-family: SUIT;
-    font-size: 15px;
-    font-weight: 800;
-    overflow-wrap: break-word;
-  `,
-  ScrollBoard: styled.div`
-    position: absolute;
-    bottom: 0px;
-    display: flex;
-    width: calc(100% - 22px);
-    gap: 0.5rem;
-    padding: 0.5rem 0 1rem 22px;
-    overflow-x: scroll;
-    overflow-y: hidden;
-    white-space: nowrap;
-    &::-webkit-scrollbar {
-      height: 7px;
-    }
-
-    /*  막대기 */
-    &::-webkit-scrollbar-thumb {
-      border-radius: 20px;
-      background-color: #a6a6a6;
-      border: 5px solid transparent;
-    }
-
-    /* 백그라운드 */
-    &::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      background-size: cover;
-    }
-
-    /*스크롤바 커스텀 끝*/
-  `,
-};
-const BoardItem = styled.div`
-  min-width: 150px;
-  height: 7rem;
-  border-radius: 10px;
-  border: 1px solid var(--Gray3, #d9d9d9);
-  background: #f9fafb;
-
+const StLabelWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 1rem;
-  & > p {
-    color: var(--Gray9, #414141);
-    font-family: Pretendard;
-    font-size: 12px;
-    font-weight: 600;
-  }
 `;
 
-export default LoanHistory;
+const StLabelContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const StCircle = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 50px;
+  background-color: #5bc569;
+`;
+
+const StLabel = styled.p`
+  color: #87898d;
+  font-family: Pretendard;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+`;
+
+const StbasicCircle = styled(StCircle)`
+  background-color: #f6f7f8;
+`;

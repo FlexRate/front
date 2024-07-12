@@ -118,12 +118,12 @@ const Dashboard = () => {
           </div>
           <div className="item5">
             <RateChange />
+            {/*또래 금리 범위 위치*/}
           </div>
-          {/*금리변화*/}
           <div className="item6">
             <LoanHistory />
+            {/*유사 소득층*/}
           </div>
-          {/*대출 히스토리*/}
         </GridContainer>
       </MainDashBoard>
     </Wrapper>
