@@ -81,16 +81,6 @@ const Bold = styled.span`
 const BoldGreen = styled(Bold)`
   color: #63c393;
 `;
-const Box = styled.span<{ $backgroundColor: string }>`
-  //color background color prop으로
-  font-size: 10px;
-  font-weight: 700;
-  line-height: 12px;
-  border-radius: 5px;
-  background-color: ${(props) => props.$backgroundColor};
-  color: ${(props) => props.color};
-  padding: 3px 5px;
-`;
 
 const DashHeader = () => {
   const [coachMark, setCoachMark] = useRecoilState(CoachMarkStage);

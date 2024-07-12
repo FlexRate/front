@@ -4,6 +4,7 @@ import GreenCheckIcon from './GreenCheckIcon.svg?react';
 import CircleCheckIcon from './CircleCheckIcon.svg?react';
 import CircleCheckColor from './CircleCheckColor.svg?react';
 import EditIcon from './EditIcon.svg?react';
+import GraphMonk from './GraphMock.svg?react';
 
 export {
   HiddenIcon,
@@ -12,4 +13,5 @@ export {
   CircleCheckIcon,
   CircleCheckColor,
   EditIcon,
+  GraphMonk,
 };

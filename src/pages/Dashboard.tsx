@@ -102,20 +102,20 @@ const Dashboard = () => {
         <GridContainer>
           <div className="item1">
             <DashHeader />
+            {/*대출상품, 상환날짜, 납부 회차*/}
           </div>
-          {/*대출상품, 상환날짜, 납부 회차*/}
           <div className="item2">
             <Notification />
+            {/*알림*/}
           </div>
-          {/*알림*/}
           <div className="item3">
             <Test />
             {/*금융지식 1*/}
           </div>
           <div className="item4">
             <LoanTobepaid />
+            {/*금리 범위 / 업직종*/}
           </div>
-          {/*이번달 대출금*/}
           <div className="item5">
             <RateChange />
           </div>

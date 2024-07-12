@@ -14,6 +14,11 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  ul,ol,li{
+    padding: 0;
+    list-style: none;
+  }
+
     @font-face {
         font-family: 'Pretendard';
         font-weight: 200;

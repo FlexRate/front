@@ -99,6 +99,7 @@ const CardBack = styled(CardFace)`
   flex-direction: column;
   justify-content: center;
   padding: 2.7rem 2.4rem;
+  border-radius: 10px;
 `;
 
 const StTitle = styled.p`
