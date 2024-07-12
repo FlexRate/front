@@ -108,7 +108,7 @@ const LoanHistory = () => {
   return (
     <Container $isVisible={isVisible}>
       <Wrapper>
-        <p>또래의 대출 금리 범위와 나의 금리 범위 위치</p>
+        <p>유사 소득층의 대출 금리 범위와 나의 금리 범위 위치</p>
         <div>
           <Num>{`0 ~ 21`}</Num>
           <Per>%</Per>
@@ -126,7 +126,7 @@ const LoanHistory = () => {
         </StLabelContainer>
         <StLabelContainer>
           <StbasicCircle />
-          <StLabel>대출 상품을 가입한 20대 여자의 평균 금리 범위</StLabel>
+          <StLabel>대출 상품을 가입한 유사 소득층의 평균 금리 범위</StLabel>
         </StLabelContainer>
       </StLabelWrapper>
       {isVisible && <Tooltip5 />}
