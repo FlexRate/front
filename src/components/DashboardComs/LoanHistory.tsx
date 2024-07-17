@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import '../../styles/CustomTooltip.css';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { CoachMarkStage } from '@/state/CoachMarkStage';
-import Tooltip5 from '../CoachMarksComs/Tooltip5';
 import { userInfo } from '@/state/userInfo';
 import TransverseGraph from './TransverseGraph';
 import { SubTitle } from '@/styles/MypageStyle';
+import Tooltip6 from '../CoachMarksComs/Tooltip6';
 
 const Container = styled.div<{ $isVisible: boolean }>`
   width: 100%;
@@ -101,7 +101,7 @@ const LoanHistory = () => {
     setCoachMark({ ...coachMark, stage: newStage });
   };
 
-  let isVisible = mode && stage === 4;
+  let isVisible = mode && stage === 5;
   const changes = data.changes;
   const lineData = changes.map((item) => item.change_loan_initial);
 
@@ -129,7 +129,7 @@ const LoanHistory = () => {
           <StLabel>대출 상품을 가입한 유사 소득층의 평균 금리 범위</StLabel>
         </StLabelContainer>
       </StLabelWrapper>
-      {isVisible && <Tooltip5 />}
+      {isVisible && <Tooltip6 />}
     </Container>
   );
 };

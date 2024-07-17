@@ -98,7 +98,7 @@ const Dashboard = () => {
     <Wrapper $isNarrowScreen={isNarrowScreen} $isVisible={mode}>
       {isNarrowScreen ? <MainSidebar /> : <></>}
       <MainDashBoard $isNarrowScreen={isNarrowScreen}>
-        <div id="Date"></div>
+        <StDate id="Date">2024년 7월 24일</StDate>
         <GridContainer>
           <div className="item1">
             <DashHeader />
@@ -106,7 +106,7 @@ const Dashboard = () => {
           </div>
           <div className="item2">
             <Notification />
-            {/*알림*/}
+            {/*FLEXRATE 타당성*/}
           </div>
           <div className="item3">
             <Test />
@@ -131,7 +131,7 @@ const Dashboard = () => {
 };
 
 const Wrapper = styled.div<{ $isNarrowScreen: boolean; $isVisible: boolean }>`
-  margin-left: ${(props) => (props.$isNarrowScreen ? '22rem' : '0')};
+  margin-left: ${(props) => (props.$isNarrowScreen ? '25rem' : '0')};
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -151,8 +151,9 @@ const Wrapper = styled.div<{ $isNarrowScreen: boolean; $isVisible: boolean }>`
 
 const MainDashBoard = styled.span<{ $isNarrowScreen: boolean }>`
   position: absolute;
-  width: ${(props) => (props.$isNarrowScreen ? 'calc(100% - 25rem)' : '100%')};
-  height: calc(100% - 110px);
+  width: ${(props) => (props.$isNarrowScreen ? 'calc(100% - 28rem)' : '100%')};
+  min-height: 65rem;
+  height: calc(100% - 16rem);
   margin: 1.5rem 1rem;
 `;
 
@@ -181,6 +182,14 @@ const GridContainer = styled.div`
   .item6 {
     grid-area: 4 / 3 / 6 / 5;
   } /* 4~5행, 3~4열 */
+`;
+
+const StDate = styled.p`
+  color: var(--Gray8, #595959);
+  font-family: Pretendard;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 1.6rem 0 1.8rem;
 `;
 
 export default Dashboard;

@@ -66,29 +66,16 @@ const MainSidebar = () => {
           <p className="profile-intro">
             <span className="color">{username}</span> 님, 반가워요!
           </p>
-          <p id="profile-id">likelion2023</p>
+          <p id="profile-id">FLEXRATE</p>
         </span>
       </div>
       <List>
-        <div className="title">대시보드</div>
-        <ul className="list">
-          <li className="bold-text">
-            <ClickPage />내 대출 관리하기
-          </li>
-          <li>내 소비 관리하기</li>
-        </ul>
-      </List>
-      <List>
         <div className="title">분석</div>
         <ul className="list">
-          <li
-            onClick={(e) => {
-              e.preventDefault();
-              nav('/editinfo');
-            }}
-          >
-            내 신용정보 수정
+          <li className="bold-text">
+            <ClickPage /> FLEXRATE 대출 상품
           </li>
+          <li>대출 승인 현황</li>
         </ul>
       </List>
       <List>
@@ -106,9 +93,9 @@ const MainSidebar = () => {
         </ul>
       </List>
       <List>
-        <div className="title">설명</div>
+        <div className="title">이용약관</div>
         <ul className="list">
-          <li onClick={handelShow}>설명보기</li>
+          <li onClick={handelShow}>개인 정보 이용 약관</li>
         </ul>
       </List>
     </Sidebar>
@@ -122,7 +109,7 @@ const Sidebar = styled.aside`
   left: 0px;
   border-right: 1px solid var(--Gray3, #d9d9d9);
   background: #f9fafc;
-  max-width: 22rem;
+  max-width: 24rem;
   width: 20%;
   height: 100%;
   display: flex;
@@ -181,6 +168,7 @@ const List = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding-left: 1rem;
 
   .list {
     padding: 0;
