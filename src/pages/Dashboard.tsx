@@ -98,32 +98,32 @@ const Dashboard = () => {
     <Wrapper $isNarrowScreen={isNarrowScreen} $isVisible={mode}>
       {isNarrowScreen ? <MainSidebar /> : <></>}
       <MainDashBoard $isNarrowScreen={isNarrowScreen}>
-        <div id="Date"></div>
+        <StDate id="Date">2024년 7월 24일</StDate>
         <GridContainer>
           <div className="item1">
             <DashHeader />
+            {/*대출상품, 상환날짜, 납부 회차*/}
           </div>
-          {/*대출상품, 상환날짜, 납부 회차*/}
           <div className="item2">
             <Notification />
+            {/*FLEXRATE 타당성*/}
           </div>
-          {/*알림*/}
           <div className="item3">
             <Test />
+            {/*금융지식 1*/}
           </div>
-          {/*대출금리,신용평가 점수*/}
           <div className="item4">
-            <LoanTobepaid></LoanTobepaid>
+            <LoanTobepaid />
+            {/*금리 범위 / 업직종*/}
           </div>
-          {/*이번달 대출금*/}
           <div className="item5">
             <RateChange />
+            {/*또래 금리 범위 위치*/}
           </div>
-          {/*금리변화*/}
           <div className="item6">
             <LoanHistory />
+            {/*유사 소득층*/}
           </div>
-          {/*대출 히스토리*/}
         </GridContainer>
       </MainDashBoard>
     </Wrapper>
@@ -131,7 +131,7 @@ const Dashboard = () => {
 };
 
 const Wrapper = styled.div<{ $isNarrowScreen: boolean; $isVisible: boolean }>`
-  margin-left: ${(props) => (props.$isNarrowScreen ? '15rem' : '0')};
+  margin-left: ${(props) => (props.$isNarrowScreen ? '25rem' : '0')};
   width: 100%;
   height: 100%;
   box-sizing: border-box;
@@ -151,8 +151,9 @@ const Wrapper = styled.div<{ $isNarrowScreen: boolean; $isVisible: boolean }>`
 
 const MainDashBoard = styled.span<{ $isNarrowScreen: boolean }>`
   position: absolute;
-  width: ${(props) => (props.$isNarrowScreen ? 'calc(100% - 18rem)' : '100%')};
-  height: calc(100% - 110px);
+  width: ${(props) => (props.$isNarrowScreen ? 'calc(100% - 28rem)' : '100%')};
+  min-height: 65rem;
+  height: calc(100% - 16rem);
   margin: 1.5rem 1rem;
 `;
 
@@ -181,6 +182,14 @@ const GridContainer = styled.div`
   .item6 {
     grid-area: 4 / 3 / 6 / 5;
   } /* 4~5행, 3~4열 */
+`;
+
+const StDate = styled.p`
+  color: var(--Gray8, #595959);
+  font-family: Pretendard;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 1.6rem 0 1.8rem;
 `;
 
 export default Dashboard;

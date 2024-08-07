@@ -41,10 +41,9 @@ const Tooltip2 = () => {
   return (
     <TooltipContainer $directionIndex={1}>
       <S.TooltipText>
-        <div>나의 대출 내역을 바탕으로</div>
+        <div>입력한 정보를 바탕으로 산출된</div>
         <div>
-          <S.PointColorText>대출금 상환 및 납입 정보</S.PointColorText>를
-          알려드려요!
+          <S.PointColorText>맞춤형 대출 상품</S.PointColorText> 이에요!
         </div>
       </S.TooltipText>
       <S.TooltipFooter>
@@ -99,7 +98,7 @@ const TooltipContainer = styled.span<TooltipProps>`
   padding: 20px;
   position: absolute;
   z-index: 20;
-  bottom: -10rem;
+  bottom: -15rem;
   left: 20rem;
 
   &::after {

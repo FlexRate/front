@@ -1,7 +1,7 @@
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://flexrate.online',
+  baseURL: import.meta.env.VITE_APP_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },

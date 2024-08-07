@@ -69,16 +69,16 @@ const Register = () => {
 
   const submitRegister = () => {
     const tmp = {
-      account: registerValue.accout,
+      username: registerValue.accout,
       password: registerValue.password,
-      name: registerValue.name,
-      email: registerValue.email,
-      birth: formatDateToString(birthValue),
+      nickname: registerValue.name,
+      // email: registerValue.email,
+      birth: formatDateToString(birthValue).replace(/-/g, ''),
       gender: registerValue.gender,
-      nationality: registerValue.nationality,
-      phonenumber: registerValue.phonenumber,
+      // nationality: registerValue.nationality,
+      // phonenumber: registerValue.phonenumber,
     };
-    console.log(tmp);
+
     //서버통신
     axiosInstance
       .post('/register', tmp)
@@ -169,7 +169,7 @@ const Register = () => {
                 />
               </span>
             </li>
-            <li>
+            {/* <li>
               <label>휴대폰번호</label>
               <BasicInput
                 type="text"
@@ -186,11 +186,11 @@ const Register = () => {
                 value={registerValue.email}
                 onChange={handleinput}
               ></BasicInput>
-            </li>
+            </li> */}
           </ul>
         </SignupInfobox>
         <SignupBottombox>
-          <ul>
+          {/* <ul>
             <li>
               {btn1 ? (
                 <CircleCheckColor onClick={handleCheckBtn1} />
@@ -207,7 +207,7 @@ const Register = () => {
               )}
               <span>[필수] 개인정보 수집 및 이용 동의</span>
             </li>
-          </ul>
+          </ul> */}
           <div>
             <span>
               <p>이미 계정이 있다면?</p>
